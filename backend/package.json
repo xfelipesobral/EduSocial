@@ -4,9 +4,9 @@
   "description": "Aplicativo escolar com a finalidade de aumentar a participação dos responsáveis no desenvolvimento dos alunos da educação infantil",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn src/index.ts",
-    "build": "tsc",
-    "start": "node build/index.js",
+    "start": "tsc && node dist/index.js",
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules index.ts",
+    "build": "yarn tsc",
     "lint": "eslint src/**/*.ts"
   },
   "author": "Felipe Vieira Sobral <xfelipesobral@gmail.com>",

@@ -1,5 +1,5 @@
 import { config as configDotEnv } from 'dotenv'
-import { inicializaServidor } from './server'
+import { inicializaServidor } from './src/server'
 
 configDotEnv()
 
