@@ -16,6 +16,7 @@ model Usuario {
   apelido            String               @unique
   nome               String
   email              String               @unique
+  ativo              Boolean              @default(false)
   senha              String
   documento          String               @unique
   aniversario        DateTime

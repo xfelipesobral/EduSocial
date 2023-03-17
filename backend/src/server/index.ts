@@ -1,5 +1,7 @@
 import express from 'express'
 
+import rotas from '../routes'
+
 interface IServidor {
 	porta: number
 }
@@ -7,13 +9,15 @@ interface IServidor {
 function inicializaServidor({ porta }: IServidor) {
 	const app = express()
 
-	app.get('/', (req, res) => {
-		res.send('Servidor disponível')
-	})
+	app.use(express.json())
 
-	app.listen(porta, () => {
+	app.use(rotas)
+
+	const server = app.listen(porta, () => {
 		console.log(`Servidor iniciado na porta ${porta}`)
 	})
+
+	return { app, server }
 }
 
 
