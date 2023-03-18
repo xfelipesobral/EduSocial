@@ -3,7 +3,7 @@ function verificaSeTodosDigitosIguais(documento: string): boolean {
 }
 
 export function validaCpf(cpf: string): boolean {
-    function calculaDigitoVerificador(cpf: string, inicio: number, fim: number): number {
+    const calculaDigitoVerificador = (inicio: number, fim: number): number => {
         let soma = 0
         let posicao = inicio
 
@@ -26,19 +26,19 @@ export function validaCpf(cpf: string): boolean {
         return false
     }
 
-    const primeiroDigito = calculaDigitoVerificador(cpf, 10, 9)
-    const segundoDigito = calculaDigitoVerificador(cpf, 11, 10)
+    const primeiroDigito = calculaDigitoVerificador(10, 9)
+    const segundoDigito = calculaDigitoVerificador(11, 10)
 
     return primeiroDigito === parseInt(cpf[9]) && segundoDigito === parseInt(cpf[10])
 }
 
 export function validaRg(rg: string) {
-    function calculaDigitoVerificador(rg: string): number {
+    const calculaDigitoVerificador = (rgSemDigito: string = rg.slice(0, 8)): number => {
         const pesos = [2, 3, 4, 5, 6, 7, 8, 9]
         let soma = 0
 
-        for (let i = 0; i < rg.length; i++) {
-            soma += parseInt(rg[i]) * pesos[i]
+        for (let i = 0; i < rgSemDigito.length; i++) {
+            soma += parseInt(rgSemDigito[i]) * pesos[i]
         }
 
         const resto = soma % 11
@@ -55,8 +55,37 @@ export function validaRg(rg: string) {
         return false
     }
 
-    const digitoVerificador = calculaDigitoVerificador(rg.slice(0, 8))
+    const digitoVerificador = calculaDigitoVerificador()
     return digitoVerificador === parseInt(rg[8])
+}
+
+export function validaCnpj(cnpj: string) {
+    cnpj = cnpj.replace(/\D+/g, '')
+
+    const calculaDigito = (tamanhoCorte: number) => {
+        const fatia = cnpj.slice(0, tamanhoCorte);
+        let fator = tamanhoCorte - 7;
+        let soma = 0;
+
+        for (let i = tamanhoCorte; i >= 1; i--) {
+        const n = parseInt(fatia.charAt(tamanhoCorte - i), 10);
+        soma += n * fator--;
+        if (fator < 2) fator = 9;
+        }
+
+        const resultado = 11 - (soma % 11);
+        return resultado > 9 ? 0 : resultado;
+    }
+
+    if (verificaSeTodosDigitosIguais(cnpj)) {
+        return false
+    }
+
+    if (cnpj.length !== 14) {
+        return false
+    }
+
+    return cnpj.endsWith(`${calculaDigito(12)}${calculaDigito(13)}`)
 }
 
 export default function validaDocumento(documento: string): boolean {

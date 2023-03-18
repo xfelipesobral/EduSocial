@@ -1,13 +1,23 @@
 import { Usuario as IUsuario } from '@prisma/client'
 
 interface IUsuarioInterface {
-    criar(usuario: IUsuario): Promise<IUsuario> // Caso nao exista, cria um usuário
-    buscarApelido(apelido: string): Promise<IUsuario> // Retorna usuário que tenha este apelido
-    buscarEmail(email: string): Promise<IUsuario> // Retorna usuário que tenha este email
-    buscarId(id: string): Promise<IUsuario> // Retorna usuário que tenha este id
-    buscarDocumento(documento: string): Promise<IUsuario> // Retorna usuário que tenha este documento
+    // Cria usuário caso não exista
+    criar(usuario: IUsuario): Promise<IUsuario> 
+
+    // Busca usuário pelo apelido, email, id ou documento
+    buscarApelido(apelido: string): Promise<IUsuario>
+    buscarEmail(email: string): Promise<IUsuario>
+    buscarId(id: string): Promise<IUsuario> 
+    buscarDocumento(documento: string): Promise<IUsuario>
+    
+    // Autenticação via apelido, email, id ou documento
+    autenticarPeloApelido(senha: string, apelido: string): Promise<IUsuario>
+    autenticarPeloEmail(senha: string, email: string): Promise<IUsuario>
+    autenticarPeloId(senha: string, id: string): Promise<IUsuario>
+    autenticarPeloDocumento(senha: string, documento: string): Promise<IUsuario>
 }
 
+// Padrões de erros
 const usuarioErros = {
     email: {
         jaExiste: 'Este e-mail já está sendo utilizado, por favor, tente outro e-mail',
@@ -25,6 +35,10 @@ const usuarioErros = {
     },
     id: {
         naoEncontrou: 'Não foi possível encontrar um usuário com este identificador'
+    },
+    autenticacao: {
+        camposInvalidos: 'Campos obrigatórios não preenchidos',
+        falha: 'Não foi possível encontrar nenhum usuário com estas credenciais'
     }
 }
 

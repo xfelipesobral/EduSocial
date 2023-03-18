@@ -31,6 +31,8 @@ model Instituicao {
   documento          String               @unique
   nomeRazao          String
   nomeFantasia       String
+  aprovada           Boolean              @default(false)
+  ativa              Boolean              @default(true)
   dataRegistro       DateTime             @default(now())
   ultimaModificacao  DateTime             @default(now())
   UsuarioInstituicao UsuarioInstituicao[]
@@ -42,6 +44,7 @@ model UsuarioInstituicao {
   usuarioId     String
   instituicao   Instituicao @relation(fields: [instituicaoId], references: [id])
   instituicaoId String
+  perfil        String      @default("CONVIDADO")
 
   @@id([usuarioId, instituicaoId])
 }
@@ -49,7 +52,7 @@ model UsuarioInstituicao {
 model Permissao {
   id                Int                @id
   descricao         String
-  perfil            Perfil             @default(CONVIDADO)
+  perfil            String             @default("CONVIDADO")
   dataRegistro      DateTime           @default(now())
   ultimaModificacao DateTime           @default(now())
   UsuarioPermissao  UsuarioPermissao[]
@@ -66,12 +69,12 @@ model UsuarioPermissao {
   @@id([permissaoId, usuarioId])
 }
 
-enum Perfil {
-  CONVIDADO
-  ADMINISTRADOR
-  MODERADOR
-  DIRETOR
-  PROFESSOR
-  ALUNO
-  RESPONSAVEL
-}
+// enum Perfil {
+//   CONVIDADO
+//   ADMINISTRADOR
+//   MODERADOR
+//   DIRETOR
+//   PROFESSOR
+//   ALUNO
+//   RESPONSAVEL
+// }
