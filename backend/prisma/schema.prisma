@@ -68,13 +68,3 @@ model UsuarioPermissao {
 
   @@id([permissaoId, usuarioId])
 }
-
-// enum Perfil {
-//   CONVIDADO
-//   ADMINISTRADOR
-//   MODERADOR
-//   DIRETOR
-//   PROFESSOR
-//   ALUNO
-//   RESPONSAVEL
-// }

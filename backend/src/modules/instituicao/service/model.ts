@@ -26,9 +26,8 @@ class InstituicaoModel implements IInstituicaoInterface {
         let existeInstituicao
         try {
             existeInstituicao = await this.buscaPeloDocumento(documento)
-        } catch (e) {
-            // Continua...
-        } 
+        } catch (e) { }
+        
         if (existeInstituicao) throw erro.documento.jaExiste
         
         const instituicaoId = uuid()

@@ -15,26 +15,20 @@ class UsuarioInstituicaoModel implements IUsuarioInstituicaoInterface {
     async vincular(instituicaoId: string, usuarioId: string, perfil: string): Promise<string> {
         if (!instituicaoId || !usuarioId || !perfil) throw erro.camposInvalidos
 
-        // Verifica se já existe um vinculo, caso exista, retorna o perfil atual
         let existeVinculo
+        let erroTry
+
         try {
+            // Verifica se já existe um vinculo, caso exista, retorna o perfil atual
             existeVinculo = await this.existeVinculo(instituicaoId, usuarioId)
+            // Verifica se existe usuário
+            if (await Usuario.buscarId(usuarioId)) erroTry = erro.usuarioNaoExiste 
+            // Verifica se existe instituição
+            if (await Instituicao.buscaPeloId(instituicaoId)) erroTry = erro.instituicaoNaoExiste
         } catch (e) { }
+
         if (existeVinculo) return existeVinculo
-
-        // Verifica se existe usuário
-        let usuario
-        try {
-            usuario = await Usuario.buscarId(usuarioId)
-        } catch (e) { }
-        if (!usuario) throw erro.usuarioNaoExiste
-
-        // Verifica se existe instituição
-        let instituicao
-        try {
-            instituicao = await Instituicao.buscaPeloId(instituicaoId)
-        } catch (e) { }
-        if (!instituicao) throw erro.instituicaoNaoExiste
+        if (erroTry) throw erroTry
 
         await this.prisma.create({
             data: {
