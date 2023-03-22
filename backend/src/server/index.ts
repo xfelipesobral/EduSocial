@@ -2,6 +2,8 @@ import express from 'express'
 
 import rotas from '../routes'
 
+import { temPermissao } from '../modules/permissoes'
+
 interface IServidor {
 	porta: number
 }

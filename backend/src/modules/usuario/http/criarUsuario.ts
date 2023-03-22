@@ -18,6 +18,7 @@ export default async function criarUsuario(request: Request, response: Response)
             aniversario
         })
     } catch (erro) {
+        console.log(erro)
         return response.status(403).send({ erro })
     }
 }

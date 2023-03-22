@@ -17,6 +17,7 @@ class UsuarioModel implements IUsuarioInterface {
     async criar({ nome, senha, aniversario, apelido, documento, email }: IUsuario): Promise<IUsuario> {
         let erro = ''
         try {
+            if (!documento || !aniversario || !email || !senha || !apelido) erro = 'Campos obrigatórios não preenchidos'
             if (await this.buscarEmail(email)) erro = erros.email.jaExiste // Verificar se email valido e se existe
             if (await this.buscarApelido(apelido)) erro = erros.apelido.jaExiste // Verificar se apelido ja existe
             if (await this.buscarDocumento(documento)) erro = erros.documento.jaExiste // Verifica se ja existe documento
