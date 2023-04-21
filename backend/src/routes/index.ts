@@ -1,7 +1,6 @@
 import { Router, Request, Response } from 'express'
 
-import usuarioRotas from './usuario.routes'
-import instituicaoRotas from './instituicao.routes'
+import userRoutes from './user.routes'
 
 const router = Router()
 
@@ -11,7 +10,6 @@ router.get('/', (request: Request, response: Response) => {
     })
 })
 
-router.use('/usuario', usuarioRotas)
-router.use('/instituicao', instituicaoRotas)
+router.use('/user', userRoutes)
 
 export default router

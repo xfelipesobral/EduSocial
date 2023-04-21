@@ -8,63 +8,17 @@ datasource db {
 }
 
 // ------------------------------------------------------------------
-// Tabelas
+// Tables
 // ------------------------------------------------------------------
 
-model Usuario {
-  id                 String               @id
-  apelido            String               @unique
-  nome               String
-  email              String               @unique
-  ativo              Boolean              @default(false)
-  senha              String
-  documento          String               @unique
-  aniversario        DateTime
-  dataRegistro       DateTime             @default(now())
-  ultimaModificacao  DateTime             @default(now())
-  UsuarioInstituicao UsuarioInstituicao[]
-  UsuarioPermissao   UsuarioPermissao[]
-}
-
-model Instituicao {
-  id                 String               @id
-  documento          String               @unique
-  nomeRazao          String
-  nomeFantasia       String
-  aprovada           Boolean              @default(false)
-  ativa              Boolean              @default(true)
-  dataRegistro       DateTime             @default(now())
-  ultimaModificacao  DateTime             @default(now())
-  UsuarioInstituicao UsuarioInstituicao[]
-  UsuarioPermissao   UsuarioPermissao[]
-}
-
-model UsuarioInstituicao {
-  usuario       Usuario     @relation(fields: [usuarioId], references: [id])
-  usuarioId     String
-  instituicao   Instituicao @relation(fields: [instituicaoId], references: [id])
-  instituicaoId String
-  perfil        String      @default("CONVIDADO")
-
-  @@id([usuarioId, instituicaoId])
-}
-
-model Permissao {
-  id                Int                @id
-  descricao         String
-  perfil            String             @default("CONVIDADO")
-  dataRegistro      DateTime           @default(now())
-  ultimaModificacao DateTime           @default(now())
-  UsuarioPermissao  UsuarioPermissao[]
-}
-
-model UsuarioPermissao {
-  permissao     Permissao    @relation(fields: [permissaoId], references: [id])
-  permissaoId   Int
-  usuario       Usuario      @relation(fields: [usuarioId], references: [id])
-  usuarioId     String
-  instituicao   Instituicao? @relation(fields: [instituicaoId], references: [id])
-  instituicaoId String?
-
-  @@id([permissaoId, usuarioId])
+model User {
+  id         String    @id
+  name       String
+  email      String    @unique
+  active     Boolean?  @default(false)
+  password   String
+  document   String?   @unique
+  birthday   DateTime
+  createdAt  DateTime? @default(now())
+  lastUpdate DateTime? @default(now())
 }

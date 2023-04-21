@@ -1,26 +1,38 @@
-import express from 'express'
+import express, { NextFunction, Response, Request } from 'express'
 
-import rotas from '../routes'
+import routes from '../routes'
+import { AppError } from '../functions/AppError'
 
-import { temPermissao } from '../modules/permissoes'
-
-interface IServidor {
-	porta: number
+interface IServer {
+	serverPort: number
 }
 
-function inicializaServidor({ porta }: IServidor) {
+function startServer({ serverPort }: IServer) {
 	const app = express()
 
 	app.use(express.json())
 
-	app.use(rotas)
+	app.use(routes)
 
-	const server = app.listen(porta, () => {
-		console.log(`Servidor iniciado na porta ${porta}`)
+	app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
+		if (err instanceof AppError) {
+			return response.status(err.statusCode).json({
+				message: err.message
+			})
+		}
+	
+		return response.status(500).json({
+			status: 'error',
+			message: `Internal server error - ${err.message}`
+		})
+	})
+
+	const server = app.listen(serverPort, () => {
+		console.log(`Server started on ${serverPort} 🟢`)
 	})
 
 	return { app, server }
 }
 
 
-export { inicializaServidor }
+export { startServer }
