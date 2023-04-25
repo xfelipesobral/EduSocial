@@ -12,13 +12,22 @@ datasource db {
 // ------------------------------------------------------------------
 
 model User {
-  id         String    @id
-  name       String
-  email      String    @unique
-  active     Boolean?  @default(false)
-  password   String
-  document   String?   @unique
-  birthday   DateTime
-  createdAt  DateTime? @default(now())
-  lastUpdate DateTime? @default(now())
+  id        String   @id
+  name      String
+  email     String   @unique
+  active    Boolean  @default(false)
+  password  String
+  document  String?  @unique
+  birthday  DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Token {
+  id           String   @id
+  userId       String
+  accessToken  String   @unique
+  refreshToken String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
 }

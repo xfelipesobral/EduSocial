@@ -1,6 +1,5 @@
 import { User as IUser } from '@prisma/client'
 
-
 export interface IUserCreate {
     name: string
     password: string

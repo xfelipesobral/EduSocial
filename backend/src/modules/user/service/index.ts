@@ -11,29 +11,6 @@ class User extends Orm {
         super()
     }
 
-    async create({ name, password, email, birthday }: IUserCreate): Promise<IUser> {
-        if (!name || !password || !email || !birthday) {
-            throw new AppError('Required fields are missing')
-        }
-
-        if (await super.findByEmail(email)) {
-            throw new AppError('Email already exists')
-        }
-
-        if (password.length < 8) {
-            throw new AppError('The password entered is too weak. Please choose a stronger password with at least 8 characters, including uppercase and lowercase letters, and numbers')
-        }
-
-        password = await passwordToHash(password)
-
-        return super.create({
-            name,
-            password,
-            email,
-            birthday
-        })
-    }
-
     async authenticate(email: string, password: string): Promise<string> {
         if (!password || !email) {
             throw new AppError('Required fields are missing')
