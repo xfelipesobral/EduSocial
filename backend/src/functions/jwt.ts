@@ -19,5 +19,5 @@ export function generateAccessToken(userId: string) {
 }
 
 export function generateRefreshToken(userId: string) {
-    return generateToken(userId, '7d')
+    return generateToken(userId, '30d')
 }

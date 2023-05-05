@@ -25,11 +25,6 @@ export default async function renewToken(request: Request, response: Response, n
         if (!sub || !tokenRegistered) {
             throw new AppError('Refresh token is invalid or expired')
         }
-
-
-
-
-
     } catch (e) {
         next(e)
     }

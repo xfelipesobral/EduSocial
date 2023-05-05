@@ -12,7 +12,7 @@ export default class TokenModel implements ITokenFunctions {
         const accessToken = generateAccessToken(userId)
         const refreshToken = generateRefreshToken(userId)
 
-        // adicionar criptografia no acess e refresh token
+        // adicionar criptografia no access e refresh token
 
         await this.prisma.create({
             data: {
