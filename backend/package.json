@@ -1,6 +1,6 @@
 {
   "name": "edusocial-backend",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Aplicativo escolar com a finalidade de aumentar a participação dos responsáveis no desenvolvimento dos alunos da educação infantil",
   "main": "index.js",
   "scripts": {
