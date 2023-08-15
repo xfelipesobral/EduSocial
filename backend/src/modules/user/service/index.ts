@@ -1,10 +1,8 @@
 import Orm from './prisma'
 import { sign as createAccessToken } from 'jsonwebtoken'
 
-import { passwordToHash, validatePasswordHash } from '../../../functions/password'
+import { validatePasswordHash } from '../../../functions/password'
 import { AppError } from '../../../functions/AppError'
-
-import { IUserCreate, IUser } from './interface'
 
 class User extends Orm {
     constructor() {

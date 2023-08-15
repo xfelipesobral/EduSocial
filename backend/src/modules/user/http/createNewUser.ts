@@ -21,7 +21,7 @@ export default async function createNewUser(request: Request, response: Response
         }
 
         if (password.length < 8) {
-            throw new AppError('The password entered is too weak. Please choose a stronger password with at least 8 characters, including uppercase and lowercase letters, and numbers')
+            throw new AppError('Password entered is too weak. Please choose a stronger password with at least 8 characters, including uppercase and lowercase letters, and numbers')
         }
 
         password = await passwordToHash(password)

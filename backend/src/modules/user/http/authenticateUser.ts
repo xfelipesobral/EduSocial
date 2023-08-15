@@ -31,7 +31,7 @@ export default async function authenticateUser(request: Request, response: Respo
             return response.status(201).json(token)
         }
 
-        throw new AppError('The email or password is incorrect')
+        throw new AppError('Email or password is incorrect')
     } catch (e) {
         next(e)
     }
