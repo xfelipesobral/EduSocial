@@ -1,6 +1,16 @@
-import Apresentation from './apresentation'
+import { useEffect } from 'react'
+import { Text } from 'react-native'
+import { router } from 'expo-router'
 
-export default function Page() {
+export default function App() { 
 
-	return <Apresentation />
+	useEffect(() => {
+		setTimeout(() => {
+			router.replace('/apresentation')
+		}, 50)
+	}, [])
+
+	return (
+		<Text>carregando...</Text>
+	)
 }
