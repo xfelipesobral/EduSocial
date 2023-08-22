@@ -24,6 +24,7 @@ export default function Login() {
 					onChangeText={setEmail}
 					value={email}
 					placeholder='Email'
+					autoCapitalize='none'
 					textContentType='emailAddress'
 					keyboardType='email-address'
 				/>
@@ -44,11 +45,11 @@ export default function Login() {
 				</TouchableOpacity>
 
 				<View className='items-center justify-center mt-6'>
-					<LinearGradient colors={['#3b82f6', '#6366f1']} start={{ x: 0.4, y: 0 }} className='rounded-full'>
-						<TouchableOpacity className='p-5 w-64 font-semibold items-center justify-center'>
+					<TouchableOpacity>
+						<LinearGradient colors={['#3b82f6', '#6366f1']} start={{ x: 0.4, y: 0 }} className='p-5 w-64 items-center justify-center rounded-full'>
 							<Text className='text-white'>Entrar</Text>
-						</TouchableOpacity>
-					</LinearGradient>
+						</LinearGradient>
+					</TouchableOpacity>
 				</View>
 
 				<TouchableOpacity className='items-center justify-center mt-5' onPress={() => router.push('/createAccount')}>
