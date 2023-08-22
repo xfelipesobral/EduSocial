@@ -9,6 +9,7 @@ import PagerView from 'react-native-pager-view'
 import imgNetwork from '../assets/apresentation/network.png'
 import imgClassroom from '../assets/apresentation/classroom.png'
 import imgSchool from '../assets/apresentation/school.png'
+import { LinearGradient } from 'expo-linear-gradient'
 
 interface IParamsSlide {
     key: string
@@ -18,20 +19,20 @@ interface IParamsSlide {
 }
 
 const pages = [
-    { 
-        image: imgNetwork, 
-        title: 'Bem-vindo', 
-        description: 'Cadastre-se agora e tenha acesso a uma agenda escolar detalhada, notificações de eventos imperdíveis e recursos de aprendizado incríveis!' 
+    {
+        image: imgNetwork,
+        title: 'Bem-vindo',
+        description: 'Cadastre-se agora e tenha acesso a uma agenda escolar detalhada, notificações de eventos imperdíveis e recursos de aprendizado incríveis!'
     },
-    { 
-        image: imgClassroom, 
-        title: 'Fique por dentro de tudo', 
-        description: 'O EduSocial mantém você sempre conectado com o que acontece nas instituições que você estuda' 
+    {
+        image: imgClassroom,
+        title: 'Fique por dentro de tudo',
+        description: 'O EduSocial mantém você sempre conectado com o que acontece nas instituições que você estuda'
     },
-    { 
-        image: imgSchool, 
-        title: 'Educação é parceria', 
-        description: 'recursos de estudo, links úteis e agendamento de reuniões diretamente no app' 
+    {
+        image: imgSchool,
+        title: 'Educação é parceria',
+        description: 'recursos de estudo, links úteis e agendamento de reuniões diretamente no app'
     }
 ]
 
@@ -47,9 +48,9 @@ export default function Apresentation() {
                     contentFit='contain'
                 />
             </View>
-            <View className='p-3 m-3 bg-slate-100 rounded-md'>
-                <Text className='font-semibold text-lg text-slate-700'>{title}</Text>
-                <Text className='mt-1'>{description}</Text>
+            <View className='p-3 m-3 rounded-md'>
+                <Text className='font-semibold text-lg text-white'>{title}</Text>
+                <Text className='mt-1 text-white'>{description}</Text>
             </View>
         </View>
     )
@@ -61,38 +62,45 @@ export default function Apresentation() {
     }))
 
     return (
-        <View className='flex-1 bg-slate-50' style={{ paddingTop: constants.statusBarHeight }} >
-            <Text className='text-center text-xl my-3' >Edu<Text className='font-semibold'>Social</Text></Text>
-            <PagerView className='flex-1' initialPage={0} onPageSelected={({ nativeEvent: { position } }) => {
-                currentPageTranslateX.value = 123 * position
-            }}>
-                {
-                    pages.map((slideParams, i) => (
-                        <Slide
-                            key={`slide-${i}`}
-                            {...slideParams}
+        <View className='flex-1 bg-slate-50'>
+            <LinearGradient colors={['#3b82f6', '#6366f1']} className='flex-1 absolute z-0 w-full h-full' />
+
+            <View style={{ paddingTop: constants.statusBarHeight + 10 }} className='flex-1'>
+                <Text className='text-center text-2xl my-3 text-white' >Edu<Text className='font-semibold'>Social</Text></Text>
+                <PagerView className='flex-1' initialPage={0} onPageSelected={({ nativeEvent: { position } }) => {
+                    currentPageTranslateX.value = 123 * position
+                }}>
+                    {
+                        pages.map((slideParams, i) => (
+                            <Slide
+                                key={`slide-${i}`}
+                                {...slideParams}
+                            />
+                        ))
+                    }
+                </PagerView>
+                <View>
+                    <View className='h-2 mx-3 bg-indigo-600 opacity-80 rounded-full'>
+                        <Animated.View
+                            style={[{
+                                height: '100%',
+                                width: 123,
+                                backgroundColor: '#ffffff',
+                                borderRadius: 100,
+                            }, animatedStyle]}
                         />
-                    ))
-                }
-            </PagerView>
-            <View>
-                <View className='h-2 mx-3 bg-slate-200 rounded-full'>
-                    <Animated.View
-                        style={[{ 
-                            height: '100%', 
-                            width: 123, 
-                            backgroundColor: '#64748b',
-                            borderRadius: 100,  
-                        }, animatedStyle]}
-                    />
+                    </View>
                 </View>
-            </View>
-            <View className='p-3 mb-2'>
-                <Link href='/login' asChild>
-                    <TouchableOpacity className='bg-sky-600 items-center justify-center rounded-md mb-2'>
-                        <Text className='text-white font-semibold text-lg p-3'>Começar a usar</Text>
+                <View className='p-3 mb-6'>
+                    <Link href='/login' asChild>
+                        <TouchableOpacity className='bg-white items-center justify-center rounded-md mb-1'>
+                            <Text className='text-lg p-3'>Entrar agora</Text>
+                        </TouchableOpacity>
+                    </Link>
+                    <TouchableOpacity className='mt-2'>
+                        <Text className='text-center text-white'>Não tem uma conta? <Text className='font-bold'>Criar agora</Text></Text>
                     </TouchableOpacity>
-                </Link>
+                </View>
             </View>
         </View>
     )
