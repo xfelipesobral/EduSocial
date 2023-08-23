@@ -10,7 +10,7 @@ export default function Login() {
 	const [password, setPassword] = useState<string>('')
 
 	return (
-		<SafeAreaView className='flex-1 justify-center p-2 bg-slate-200' >
+		<SafeAreaView className='flex-1 justify-center p-2 bg-slate-200'>
 			<View className='my-4'>
 				<Text className='text-center text-2xl'>Edu<Text className='font-semibold'>Social</Text></Text>
 				<Text className='text-center'>Criar slogan</Text>
@@ -52,7 +52,7 @@ export default function Login() {
 					</TouchableOpacity>
 				</View>
 
-				<TouchableOpacity className='items-center justify-center mt-5' onPress={() => router.push('/createAccount')}>
+				<TouchableOpacity className='items-center justify-center mt-2' onPress={() => router.push('/createAccount')}>
 					<Text>Não tem uma conta? <Text className='font-semibold text-sky-700'>Criar agora</Text></Text>
 				</TouchableOpacity>
 			</View>

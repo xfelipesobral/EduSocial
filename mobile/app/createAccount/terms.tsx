@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 
-export default function CreateAccount() {
+export default function CreateAccountTerms() {
 
     return (
         <View>
-            <Text>aqui</Text>
+            <Text>teste</Text>
         </View>
     )
 }
