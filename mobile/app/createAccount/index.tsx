@@ -27,7 +27,7 @@ export default function CreateAccount() {
                 <View className='mt-4'>
                     <Text>Nome completo</Text>
                     <TextInput
-                        className='border rounded-md border-slate-600 p-3 mt-1'
+                        className='border rounded-md border-slate-600 p-2 mt-1'
                         onChangeText={setName}
                         value={name}
                         placeholder='Seu nome completo'
@@ -39,7 +39,7 @@ export default function CreateAccount() {
                 <View className='my-4'>
                     <Text>Email</Text>
                     <TextInput
-                        className='border rounded-md border-slate-600 p-3 mt-1'
+                        className='border rounded-md border-slate-600 p-2 mt-1'
                         onChangeText={setEmail}
                         value={email}
                         placeholder='Ex: contato@edusocial.com.br'
@@ -72,7 +72,7 @@ export default function CreateAccount() {
             <View className='flex-1 justify-end items-end m-3'>
                 <TouchableOpacity onPress={() => {
                     router.push('/createAccount/terms')
-                }} className='bg-slate-700 p-3 px-6 rounded-md'>
+                }} className='bg-indigo-600 p-3 px-6 w-full items-center rounded-md'>
                     <Text className='text-white'>Próxima etapa</Text>
                 </TouchableOpacity>
             </View>

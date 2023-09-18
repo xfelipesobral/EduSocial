@@ -1,10 +1,9 @@
 import { View, Text, TouchableOpacity } from 'react-native'
+import PagerView from 'react-native-pager-view'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import constants from 'expo-constants'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { Image } from 'expo-image'
-
-import PagerView from 'react-native-pager-view'
 
 import imgNetwork from '../assets/apresentation/network.png'
 import imgClassroom from '../assets/apresentation/classroom.png'
@@ -97,7 +96,7 @@ export default function Apresentation() {
                             <Text className='text-lg p-3'>Entrar agora</Text>
                         </TouchableOpacity>
                     </Link>
-                    <TouchableOpacity className='mt-2'>
+                    <TouchableOpacity className='mt-2' onPress={() => router.push('/createAccount')}>
                         <Text className='text-center text-white'>Não tem uma conta? <Text className='font-bold'>Criar agora</Text></Text>
                     </TouchableOpacity>
                 </View>
