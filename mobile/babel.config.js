@@ -5,7 +5,8 @@ module.exports = function (api) {
 		plugins: [
 			'expo-router/babel',
 			'nativewind/babel',
-			'react-native-reanimated/plugin'
+			'react-native-reanimated/plugin',
+			['@babel/plugin-transform-private-methods', { 'loose': true }]
 		]
 	};
 };

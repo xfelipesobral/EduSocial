@@ -2,13 +2,17 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import constants from 'expo-constants'
-import { Link, router } from 'expo-router'
+import { router } from 'expo-router'
 import { Image } from 'expo-image'
+import { LinearGradient } from 'expo-linear-gradient'
 
 import imgNetwork from '../assets/apresentation/network.png'
 import imgClassroom from '../assets/apresentation/classroom.png'
 import imgSchool from '../assets/apresentation/school.png'
-import { LinearGradient } from 'expo-linear-gradient'
+
+import { CacheKey, saveCache } from './functions/cache'
+
+import Title from './components/title'
 
 interface IParamsSlide {
     key: string
@@ -39,17 +43,17 @@ export default function Apresentation() {
     const currentPageTranslateX = useSharedValue(0)
 
     const Slide = ({ key, image, title, description }: IParamsSlide) => (
-        <View key={key} className='flex-1'>
-            <View className='flex-1 items-center justify-center'>
+        <View key={key} style={{ flex: 1 }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <Image
                     source={image}
-                    className='w-[100%] h-[100%] max-w-[500px] p-2'
+                    style={{ width: '100%', height: '100%', maxWidth: 500, padding: 8 }}
                     contentFit='contain'
                 />
             </View>
-            <View className='p-3 m-3 rounded-md'>
-                <Text className='font-semibold text-lg text-white'>{title}</Text>
-                <Text className='mt-1 text-white'>{description}</Text>
+            <View style={{ padding: 12, margin: 12, borderRadius: 6 }}>
+                <Text style={{ fontWeight: '600', fontSize: 18, color: '#ffffff' }}>{title}</Text>
+                <Text style={{ marginTop: 4, color: '#ffffff' }}>{description}</Text>
             </View>
         </View>
     )
@@ -61,12 +65,12 @@ export default function Apresentation() {
     }))
 
     return (
-        <View className='flex-1 bg-slate-50'>
-            <LinearGradient colors={['#3b82f6', '#6366f1']} className='flex-1 absolute z-0 w-full h-full' />
+        <View style={{ flex: 1, backgroundColor: '#f8fafc' }}>
+            <LinearGradient colors={['#3b82f6', '#6366f1']} style={{ flex: 1, position: 'absolute', zIndex: 0, width: '100%', height: '100%' }} />
 
-            <View style={{ paddingTop: constants.statusBarHeight + 10 }} className='flex-1'>
-                <Text className='text-center text-2xl my-3 text-white' >Edu<Text className='font-semibold'>Social</Text></Text>
-                <PagerView className='flex-1' initialPage={0} onPageSelected={({ nativeEvent: { position } }) => {
+            <View style={{ paddingTop: constants.statusBarHeight + 10, flex: 1 }}>
+                <Title />
+                <PagerView style={{ flex: 1 }} initialPage={0} onPageSelected={({ nativeEvent: { position } }) => {
                     currentPageTranslateX.value = 123 * position
                 }}>
                     {
@@ -79,7 +83,7 @@ export default function Apresentation() {
                     }
                 </PagerView>
                 <View>
-                    <View className='h-2 mx-3 bg-indigo-600 opacity-80 rounded-full'>
+                    <View style={{ height: 8, marginHorizontal: 12, opacity: 0.8, borderRadius: 100, backgroundColor: '#4f46e5' }}>
                         <Animated.View
                             style={[{
                                 height: '100%',
@@ -90,14 +94,15 @@ export default function Apresentation() {
                         />
                     </View>
                 </View>
-                <View className='p-3 mb-6'>
-                    <Link href='/login' asChild>
-                        <TouchableOpacity className='bg-white items-center justify-center rounded-md mb-1'>
-                            <Text className='text-lg p-3'>Entrar agora</Text>
-                        </TouchableOpacity>
-                    </Link>
-                    <TouchableOpacity className='mt-2' onPress={() => router.push('/createAccount')}>
-                        <Text className='text-center text-white'>Não tem uma conta? <Text className='font-bold'>Criar agora</Text></Text>
+                <View style={{ padding: 12, marginBottom: 24 }}>
+                    <TouchableOpacity onPress={() => {
+                        saveCache(CacheKey.sawPresentation, true)
+                        router.replace('/login')
+                    }} style={{ backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', borderRadius: 6, marginBottom: 4 }}>
+                        <Text style={{ fontSize: 18, padding: 12 }}>Entrar agora</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ marginTop: 8 }} onPress={() => router.push('/createAccount')}>
+                        <Text style={{ textAlign: 'center', color: '#ffffff' }}>Não tem uma conta? <Text style={{ fontWeight: '600' }}>Criar agora</Text></Text>
                     </TouchableOpacity>
                 </View>
             </View>
