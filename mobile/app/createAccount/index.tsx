@@ -11,23 +11,23 @@ export default function CreateAccount() {
     const [isDatePickerVisible, setDatePickerVisibility] = useState<boolean>(false)
 
     return (
-        <SafeAreaView className='flex-1 p-2 bg-slate-200'>
-            <View className='flex'>
-                <View className='absolute h-full justify-center left-1'>
-                    <TouchableOpacity className='z-10' onPress={() => router.back()}>
+        <SafeAreaView style={{ flex: 1, padding: 8, backgroundColor: '#e2e8f0' }}>
+            <View style={{ display: 'flex' }}>
+                <View style={{ position: 'absolute', height: '100%', justifyContent: 'center', left: 4 }}>
+                    <TouchableOpacity style={{ zIndex: 10 }} onPress={() => router.back()}>
                         <Text>cancelar</Text>
                     </TouchableOpacity>
                 </View>
 
-                <Text className='text-center text-2xl'>Edu<Text className='font-semibold'>Social</Text></Text>
+                <Text style={{ textAlign: 'center', fontSize: 24 }}>Edu<Text style={{ fontWeight: '600' }}>Social</Text></Text>
             </View>
-            <View className='m-1'>
-                <Text className='text-2xl my-3 mt-10'>Criar uma conta</Text>
+            <View style={{ margin: 4 }}>
+                <Text style={{ fontSize: 24, marginVertical: 12, marginTop: 40 }}>Criar uma conta</Text>
 
-                <View className='mt-4'>
+                <View style={{ marginTop: 16 }}>
                     <Text>Nome completo</Text>
                     <TextInput
-                        className='border rounded-md border-slate-600 p-2 mt-1'
+                        style={{ borderWidth: 1, borderRadius: 6, borderColor: '#475569', padding: 12, marginTop: 4 }}
                         onChangeText={setName}
                         value={name}
                         placeholder='Seu nome completo'
@@ -39,7 +39,7 @@ export default function CreateAccount() {
                 <View className='my-4'>
                     <Text>Email</Text>
                     <TextInput
-                        className='border rounded-md border-slate-600 p-2 mt-1'
+                        style={{ borderWidth: 1, borderRadius: 6, borderColor: '#475569', padding: 12, marginTop: 4 }}
                         onChangeText={setEmail}
                         value={email}
                         placeholder='Ex: contato@edusocial.com.br'
@@ -51,7 +51,10 @@ export default function CreateAccount() {
 
                 <View>
                     <Text>Data de nascimento</Text>
-                    <TouchableOpacity className='border rounded-md border-slate-600 p-3 mt-1' onPress={() => setDatePickerVisibility(true)}>
+                    <TouchableOpacity 
+                        style={{ borderWidth: 1, borderRadius: 6, borderColor: '#475569', padding: 12, marginTop: 4 }} 
+                        onPress={() => setDatePickerVisibility(true)}
+                    >
                         <Text>{ birthdayDate ? birthdayDate.toLocaleDateString('pt-BR')  : <Text className='text-gray-400'>Sua data de aniversário</Text> }</Text>
                     </TouchableOpacity>
                     <DateTimePickerModal
@@ -69,11 +72,11 @@ export default function CreateAccount() {
                     />
                 </View>
             </View>
-            <View className='flex-1 justify-end items-end m-3'>
+            <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', margin: 12 }}>
                 <TouchableOpacity onPress={() => {
                     router.push('/createAccount/terms')
-                }} className='bg-indigo-600 p-3 px-6 w-full items-center rounded-md'>
-                    <Text className='text-white'>Próxima etapa</Text>
+                }} style={{ backgroundColor: '#4f46e5', padding: 12, paddingHorizontal: 24, width: '100%', alignItems: 'center', borderRadius: 6 }}>
+                    <Text style={{ color: '#ffffff' }}>Próxima etapa</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
