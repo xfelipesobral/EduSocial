@@ -39,7 +39,7 @@ export default function Login() {
 	}
 
 	return (
-		<SafeAreaView style={{ flex: 1, justifyContent: 'center', padding: 8, backgroundColor: '#e2e8f0' }}>
+		<SafeAreaView style={{ flex: 1, justifyContent: 'center', padding: 8, backgroundColor: '#f1f5f9' }}>
 			<Message
 				ref={message}
 				isVisible={messageVisible}

@@ -7,8 +7,14 @@ export function saveRegisterCache(user: IRegisterUser) {
     return AsyncStorage.setItem(REGISTER_CACHE, JSON.stringify(user))
 }
 
-export function getRegisterCache() {
-    return AsyncStorage.getItem(REGISTER_CACHE)
+export async function getRegisterCache() {
+    const user = await AsyncStorage.getItem(REGISTER_CACHE)
+    
+    if (user) {
+        return JSON.parse(user) as IRegisterUser
+    }
+
+    return null
 }
 
 export function destroyRegisterCache() {

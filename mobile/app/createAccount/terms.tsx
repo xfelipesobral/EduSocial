@@ -1,75 +1,116 @@
 import { router } from 'expo-router'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { useEffect, useState } from 'react'
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { TitleBlack } from '../../components/title'
+import { getRegisterCache, saveRegisterCache } from './functions/cache'
+
+import { IPermissions } from './types'
+
 interface IPermission {
-    id: string
+    id: keyof IPermissions
     title: string
     description: string
     link?: string
 }
 
 export default function CreateAccountTerms() {
+    const [permissions, setPermissions] = useState<IPermissions>({
+        connectWithNeighbors: true,
+        privacyPolicy: true,
+        receiveEmails: true,
+        receiveNotifications: true,
+        termsOfUse: true
+    })
 
-    const Permission = ({ title, description }: IPermission) => (
-        <TouchableOpacity className='my-2 flex-row bg-white p-2 rounded-md'>
-            <View className='h-full w-2 bg-green-600 rounded-full' />
-            <View className='flex-1 ml-2'>
-                <Text className='font-semibold'>{title}</Text>
+    useEffect(() => {
+        getCacheValues()
+    }, [])
+
+    const getCacheValues = async () => {
+        const user = await getRegisterCache()
+        if (!user) return
+
+        setPermissions({ ...user.permissions })
+    }
+
+    const setPermissionStatus = (id: keyof IPermissions, status: boolean) => {
+        permissions[id] = status
+        setPermissions({ ...permissions })
+    }
+
+    const Permission = ({ id, title, description }: IPermission) => (
+        <TouchableOpacity
+            onPress={() => setPermissionStatus(id, !permissions[id])}
+            style={{ marginVertical: 4, flexDirection: 'row', backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#e2e8f0', padding: 8, borderRadius: 6 }}
+        >
+            <View style={{ height: '100%', width: 8, backgroundColor: permissions[id] ? '#16a34a' : '#e11d48', borderRadius: 999 }} />
+            <View style={{ flex: 1, marginLeft: 8 }}>
+                <Text style={{ fontWeight: '600' }}>{title}</Text>
                 <Text>{description}</Text>
             </View>
         </TouchableOpacity>
     )
 
     return (
-        <SafeAreaView className='flex-1 p-2 bg-slate-200'>
-            <View className='flex'>
-                <View className='absolute h-full justify-center left-1'>
-                    <TouchableOpacity className='z-10' onPress={() => router.back()}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#f8fafc' }}>
+            <View style={{ marginTop: 10 }}>
+                <View style={{ position: 'absolute', height: '100%', justifyContent: 'center', left: 12 }}>
+                    <TouchableOpacity style={{ zIndex: 10 }} onPress={() => router.back()}>
                         <Text>voltar</Text>
                     </TouchableOpacity>
                 </View>
 
-                <Text className='text-center text-2xl'>Edu<Text className='font-semibold'>Social</Text></Text>
+                <TitleBlack />
             </View>
-            <View className='m-1'>
-                <Text className='text-2xl my-3 mt-10'>Customizar sua experiência</Text>
 
-                <View className='mt-2'>
-                    <Permission
-                        id='emails'
-                        title='Receber emails'
-                        description='Enviaremos emails de ajuda, notícias e avisos'
-                    />
-                    <Permission
-                        id='known'
-                        title='Conectar com conhecidos'
-                        description='Buscaremos em sua agenda telefonica colegas que já estão cadastrados no EduSocial'
-                    />
-                    <Permission
-                        id='notifications'
-                        title='Receber notificações'
-                        description='Enviaremos notificações de notícias, avisos e novidades'
-                    />
-                    <Permission
-                        id='termsOfUse'
-                        title='Termos de uso'
-                        link='#'
-                        description='Enviaremos notificações de notícias, avisos e novidades'
-                    />
-                    <Permission
-                        id='privacyPolicies'
-                        title='Política de privacidade'
-                        link='#'
-                        description='Enviaremos notificações de notícias, avisos e novidades'
-                    />
+            <ScrollView contentContainerStyle={{ paddingBottom: 12 }}>
+                <View style={{ margin: 4, padding: 8 }}>
+                    <Text style={{ fontSize: 24, marginTop: 24 }}>Customizar sua experiência</Text>
+                    <Text style={{ marginTop: 4 }}>Recomendamos manter todas as permissões ativadas para aproveitar ao máximo o aplicativo</Text>
+
+                    <View style={{ marginTop: 24 }}>
+                        <Permission
+                            id='receiveEmails'
+                            title='Receber emails'
+                            description='Enviaremos emails de ajuda, notícias e avisos'
+                        />
+                        <Permission
+                            id='connectWithNeighbors'
+                            title='Conectar com conhecidos'
+                            description='Buscaremos em sua agenda telefonica colegas que já estão cadastrados no EduSocial'
+                        />
+                        <Permission
+                            id='receiveNotifications'
+                            title='Receber notificações'
+                            description='Enviaremos notificações de notícias, avisos e novidades'
+                        />
+                        <Permission
+                            id='termsOfUse'
+                            title='Termos de uso'
+                            link='#'
+                            description='Enviaremos notificações de notícias, avisos e novidades'
+                        />
+                        <Permission
+                            id='privacyPolicy'
+                            title='Política de privacidade'
+                            link='#'
+                            description='Enviaremos notificações de notícias, avisos e novidades'
+                        />
+                    </View>
                 </View>
-            </View>
-            <View className='flex-1 justify-end items-end m-3'>
-                <TouchableOpacity onPress={() => {
-                    router.push('/createAccount/confirmation')
-                }} className='bg-indigo-600 p-3 px-6 w-full items-center rounded-md'>
-                    <Text className='text-white'>Confirmar conta</Text>
+            </ScrollView>
+            <View style={{ padding: 8, borderTopWidth: 1, borderColor: '#e2e8f0' }}>
+                <TouchableOpacity onPress={async () => {
+                    const user = await getRegisterCache()
+                    if (!user) return
+
+                    saveRegisterCache({ ...user, permissions })
+
+                    router.push('/createAccount/password')
+                }} style={{ backgroundColor: '#2563eb', padding: 16, paddingHorizontal: 24, borderRadius: 12, width: '100%', alignItems: 'center' }}>
+                    <Text style={{ color: '#ffffff' }}>Confirmar conta</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

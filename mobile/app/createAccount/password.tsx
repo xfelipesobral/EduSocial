@@ -1,18 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { router } from 'expo-router'
+import { getRegisterCache } from './functions/cache'
+import { TitleBlack } from '../../components/title'
 
 export default function CreateAccount() {
     const [password, setPassword] = useState<string>('')
+    const [userName, setUserName] = useState<string>('')
+
+    useEffect(() => {
+        getCacheValues()
+    }, [])
+
+    const getCacheValues = async () => {
+        const user = await getRegisterCache()
+        if (!user) return
+
+        setUserName(user.fullname.split(' ')[0])
+    }
+
 
     return (
-        <SafeAreaView className='flex-1 p-2 bg-slate-200'>
-            <View className='flex'>
-                <Text className='text-center text-2xl'>Edu<Text className='font-semibold'>Social</Text></Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#f8fafc' }}>
+            <View style={{ marginTop: 10 }}>
+                <TitleBlack />
             </View>
-            <View className='m-1'>
-                <Text className='text-2xl my-3 mt-10'>Defina uma senha</Text>
+            <View style={{ margin: 4, padding: 8, flex: 1 }}>
+                <Text style={{ fontSize: 24, marginTop: 18 }}>Definir sua senha</Text>
+                <Text style={{ marginTop: 4 }}>{userName}, chegamos à última etapa do seu cadastro. Agora, basta escolher uma senha. Capriche!</Text>
 
                 <View className='mt-4'>
                     <Text>Senha</Text>
@@ -26,11 +42,12 @@ export default function CreateAccount() {
                     />
                 </View>
             </View>
-            <View className='flex-1 justify-end items-end m-3'>
-                <TouchableOpacity onPress={() => {
-                    router.push('/createAccount/terms')
-                }} className='bg-indigo-600 p-3 px-6 w-full items-center rounded-md'>
-                    <Text className='text-white'>Entrar no seu perfil</Text>
+            <View style={{ padding: 8, borderTopWidth: 1, borderColor: '#e2e8f0' }}>
+                <TouchableOpacity onPress={async () => {
+
+                    // </View>router.push('/createAccount/password')
+                }} style={{ backgroundColor: '#16a34a', padding: 16, paddingHorizontal: 24, borderRadius: 12, width: '100%', alignItems: 'center' }}>
+                    <Text style={{ color: '#ffffff' }}>Completar cadastro</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
