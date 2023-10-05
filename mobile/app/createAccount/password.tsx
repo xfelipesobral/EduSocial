@@ -30,10 +30,10 @@ export default function CreateAccount() {
                 <Text style={{ fontSize: 24, marginTop: 18 }}>Definir sua senha</Text>
                 <Text style={{ marginTop: 4 }}>{userName}, chegamos à última etapa do seu cadastro. Agora, basta escolher uma senha. Capriche!</Text>
 
-                <View className='mt-4'>
+                <View style={{ marginTop: 12 }}>
                     <Text>Senha</Text>
                     <TextInput
-                        className='border rounded-md border-slate-600 p-2 mt-1'
+                        style={{ borderWidth: 1, borderRadius: 6, borderColor: '#475569', padding: 12, marginTop: 4 }}
                         onChangeText={setPassword}
                         value={password}
                         placeholder='Min. 8 caracteres'
