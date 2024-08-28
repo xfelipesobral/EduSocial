@@ -25,3 +25,5 @@ prisma/migrations
 
 # Arquivo de banco de dados SQLite (caso esteja sendo usado)
 *.db
+
+.DS_Store
