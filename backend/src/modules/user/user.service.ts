@@ -24,7 +24,7 @@ export class User extends UserController {
                 }
             })
 
-            const refreshToken = await session.create(user.id, id, identifier)
+            const refreshToken = await session.create(user.id, identifier)
 
             return {
                 accessToken: token,
