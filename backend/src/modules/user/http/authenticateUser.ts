@@ -1,37 +1,20 @@
 import { NextFunction, Request, Response } from 'express'
 
-import { AppError } from '../../../functions/AppError'
-import { validatePasswordHash } from '../../../functions/password'
+import { AppError } from '@/functions/AppError'
 
-import User from '../service'
-import Token from '../../token/service'
-
-interface IRequestBodyDefault {
-    email: string
-    password: string
-}
+import user from '../user.service'
 
 export default async function authenticateUser(request: Request, response: Response, next: NextFunction) {
-    const { email, password } = request.body as IRequestBodyDefault
-
     try {
-        if (!password || !email) {
-            throw new AppError('Required fields are missing')
+        const { email, password } = request.body
+
+        if (!email || !password) {
+            throw new AppError('Email and password are required')
         }
 
-        const user = await User.findByEmail(email)
+        const auth = await user.authenticate(email, password, request.headers['user-agent'] || 'unknown')
 
-        if (user && await validatePasswordHash(password, user.password)) {
-            if (!user.active) {
-                throw new AppError('Account deactivated')
-            }
-
-            const token = await Token.create(user.id)
-            
-            return response.status(201).json(token)
-        }
-
-        throw new AppError('Email or password is incorrect', 200)
+        return response.status(200).json(auth)
     } catch (e) {
         next(e)
     }

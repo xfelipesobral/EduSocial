@@ -1,23 +1,21 @@
 import { sign as signToken, SignOptions, verify as verifyToken } from 'jsonwebtoken'
 
-export function generateToken(userId: string, expiresIn: SignOptions['expiresIn']) {
-    const token = signToken({}, process.env.EDUSOCIAL_SECRET, {
-        subject: userId,
-        issuer: 'EduSocial-API',
-        expiresIn
+import uuid from './uuid'
+
+const secret = process.env.SECRET || 'segredo-muito-secreto'
+
+export function createAccessToken({ options, payload }: { payload?: object, options?: SignOptions }): { id: string, token: string } {
+    const id = uuid()
+
+    const token = signToken(payload || {}, secret, {
+        ...options,
+        issuer: 'edusocial-api',
+        jwtid: id
     })
 
-    return token
+    return { id, token }
 }
 
-export function decoteToken(token: string) {
-    return verifyToken(token, process.env.EDUSOCIAL_SECRET)
-}
-
-export function generateAccessToken(userId: string) {
-    return generateToken(userId, '1h')
-}
-
-export function generateRefreshToken(userId: string) {
-    return generateToken(userId, '30d')
+export function verifyAcessToken(token: string) {
+    return verifyToken(token, secret)
 }

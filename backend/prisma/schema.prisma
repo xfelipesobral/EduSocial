@@ -28,7 +28,7 @@ model User {
   birthday         DateTime // Data de nascimento
   createdAt        DateTime              @default(now()) // Data de criação
   updatedAt        DateTime              @default(now()) @updatedAt // Data de atualização
-  tokens           Token[] // Tokens de acesso
+  sessions         Session[] // Sessões do usuário
   addresses        Address[] // Endereços do usuário
   organizations    OrganizationMembers[] // Organizações que o usuário faz parte  
 }
@@ -78,15 +78,15 @@ model Address {
   organization   Organization? @relation(fields: [organizationId], references: [id]) // Organização
 }
 
-model Token {
-  id           Int      @id // ID auto increment
-  userId       String // ID do usuário
-  accessToken  String   @unique // Token de acesso
-  refreshToken String // Token de atualização
-  ip           String // IP do usuário
-  createdAt    DateTime @default(now()) // Data de criação
-  updatedAt    DateTime @default(now()) @updatedAt // Data de atualização
-  user         User     @relation(fields: [userId], references: [id]) // Usuário
+model Session {
+  id         String   @id // UUID (refresh token)
+  userId     String // ID do usuário
+  content    String // Conteúdo da sessão
+  identifier String // Identificador da sessão
+  ip         String // IP do usuário
+  createdAt  DateTime @default(now()) // Data de criação
+  updatedAt  DateTime @default(now()) @updatedAt // Data de atualização
+  user       User     @relation(fields: [userId], references: [id]) // Usuário
 }
 
 // Documentos de identificação
@@ -94,6 +94,9 @@ enum DocumentEnum {
   CPF
   CNPJ
   PASSAPORT
+  RG
+  CNH
+  UNKNOW
 }
 
 // Papéis dos usuários no sistema
